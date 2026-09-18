@@ -7,36 +7,43 @@ University of Melbourne.
 The program simulates elementary cellular automata with periodic boundaries and
 uses **Rules 184 and 232** to demonstrate the density-classification procedure.
 
-## Portfolio context
+## Portfolio Context
 
 The original assessed project received **16.5/20**. After receiving feedback, I
 revisited the implementation and refactored it to improve data structures,
-memory safety, and modularity while preserving the original algorithmic ideas.
+memory safety, efficiency, and modularity while preserving the original
+algorithmic ideas.
 
 This repository contains the refactored portfolio version rather than the
 University-provided assignment skeleton or assessed submission.
 
-## Key improvements after feedback
+## Features
+
+- Simulates one-dimensional elementary cellular automata.
+- Supports elementary cellular automaton rule codes from `0` to `255`.
+- Uses periodic boundary conditions.
+- Stores the evolution of the automaton as a linked sequence of states.
+- Includes a density-classification demonstration using Rules 184 and 232.
+- Uses dynamic memory allocation and modular C functions.
+
+## Key Improvements After Feedback
 
 - Added a dedicated **tail pointer** to the linked list, reducing state insertion
   from O(n) traversal to **O(1)**.
 - Linked the initial state directly into the same run history instead of keeping
-  a duplicated, disconnected copy.
+  a duplicated or disconnected copy.
 - Removed unnecessary copying when appending newly computed states by
   transferring ownership of each allocated state buffer into the linked list.
-- Added complete cleanup of every allocated state, cell buffer, run structure,
-  and automaton object.
+- Added complete cleanup of allocated state nodes and cell buffers.
 - Ensured all allocated cell arrays include space for the null terminator.
-- Removed use of uninitialised values and added validation for input and state
-  access.
-- Consolidated repeated linked-list traversal into a reusable `state_at`
-  function.
+- Removed use of uninitialised values and added validation for state access.
+- Consolidated repeated linked-list traversal into reusable helper functions.
 - Separated simulation, history management, printing, counting, and density
   classification into clearer modules.
-- Classified the original density from the final Rule-232 pattern rather than
-  directly counting the original state.
+- Used the final Rule-232 pattern to infer the density classification rather than
+  directly recounting the original configuration.
 
-## Concepts demonstrated
+## Concepts Demonstrated
 
 - C programming
 - Dynamic memory management
@@ -47,37 +54,12 @@ University-provided assignment skeleton or assessed submission.
 - State-transition systems
 - Periodic boundary conditions
 - Density classification
+- Algorithm design
 - Refactoring and memory-safety debugging
 
 ## Build
 
+Compile with GCC:
+
 ```bash
 gcc -std=c11 -Wall -Wextra -Werror -pedantic src/cellular_automata.c -o cellular_automata
-```
-
-For an additional memory-safety check with GCC/Clang sanitizers:
-
-```bash
-gcc -std=c11 -Wall -Wextra -pedantic -fsanitize=address,undefined     -fno-omit-frame-pointer src/cellular_automata.c -o cellular_automata_asan
-```
-
-## Run
-
-The program reads the automaton configuration from standard input.
-
-```bash
-./cellular_automata < examples/test0.txt
-```
-
-## Repository structure
-
-```text
-cellular-automata-simulation/
-├── README.md
-├── .gitignore
-├── src/
-│   └── cellular_automata.c
-└── examples/
-    ├── test0.txt
-    └── sample_output.txt
-```
