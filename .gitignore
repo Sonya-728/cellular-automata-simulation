@@ -1,0 +1,7 @@
+.DS_Store
+.Rhistory
+.RData
+*.o
+cellular_automata
+cellular_automata_asan
+.vscode/
